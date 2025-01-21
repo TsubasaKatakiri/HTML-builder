@@ -9,7 +9,6 @@ fs.mkdir(path.join(__dirname, OUTPUT_DIRECTORY), { recursive: true }, (err) => {
 
 function buildHTML() {
   const inFile = fs.createReadStream(path.join(__dirname, 'template.html'));
-  let outFile = null;
   inFile.on('data', (data) => {
     let lineContents = data.toString();
     const regex = new RegExp(/({{[\s\S]+?}})/g);
@@ -24,12 +23,13 @@ function buildHTML() {
       );
       inFragment.on('data', (fragChunk) => {
         lineContents = lineContents.replace(item, fragChunk.toString());
-        outFile = fs.createWriteStream(
+        fs.writeFile(
           path.join(__dirname, OUTPUT_DIRECTORY, 'index.html'),
+          lineContents,
+          (err) => {
+            if (err) throw err;
+          },
         );
-        outFile.write(lineContents, (err) => {
-          if (err) throw err;
-        });
       });
     }
   });

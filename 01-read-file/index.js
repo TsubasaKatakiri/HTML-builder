@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const filePath = path.resolve('./text.txt');
+const filePath = path.join(__dirname, 'text.txt');
 
 async function readChunks(readableStream) {
   for await (const chunk of readableStream) {
-    console.log(chunk);
+    process.stdout.write(chunk);
   }
 }
 
