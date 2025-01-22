@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dirPath = path.resolve('./secret-folder');
+const dirPath = path.join(__dirname, 'secret-folder');
 
 fs.readdir(
   dirPath,
